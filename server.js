@@ -13,14 +13,25 @@ var gameSchema = new Schema({
 
 var Game = mongoose.model("Game" , gameSchema);
 
-app.get('/' , function(req,res){
-  Game.find(function(err, scores){
-    if(err){
-      console.log(err);
-    }else {
-      res.send(scores);
-    }
-  })
+app.get('/score/:num?' , function(req,res){
+
+  if(req.params.num == null){
+    Game.find(function(err, scores){
+      if(err){
+        console.log(err);
+      }else {
+        res.send(scores);
+      }
+    }).sort({"score": "desc"});
+  }else{
+    Game.find(function(err, scores){
+      if(err){
+        console.log(err);
+      }else {
+        res.send(scores);
+      }
+    }).sort({"score": "desc"}).limit(num);
+  }
 });
 
 app.post('/save', function(res, req){
